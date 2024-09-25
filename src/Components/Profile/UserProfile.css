@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+    .card-body img {
+      width: 100px;
+    }
+  
+    .card-title {
+      font-size: 18px;
+    }
+  
+    .list-group-item {
+      font-size: 14px;
+    }
+  }
+  

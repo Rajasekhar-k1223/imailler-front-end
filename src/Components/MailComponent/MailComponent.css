@@ -1,0 +1,32 @@
+.mail-tab{
+    height:90vh;
+    border-right:4px double #000;
+    padding: 0rem !important;
+    padding-left: 3.5rem !important;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.mail-box-list{
+    height:90vh;
+    overflow-y: auto;
+    border-Right:4px double gray;
+}
+
+.mail-box{
+    box-Shadow:0px 0px 5px gray;
+    padding:1rem;
+    margin-Bottom:0.4rem;
+    border-Radius:3;
+    cursor: pointer;
+}
+.mail-box:hover{
+    box-Shadow:0px 0px 5px gray inset;
+    padding:1rem;
+    margin-Bottom:0.4rem;
+    border-Radius:3;
+    border-radius: 5px;
+}
+.mail-tab > ul > li:hover{
+    box-shadow: 0px 0px 5px #000 inset;
+  }

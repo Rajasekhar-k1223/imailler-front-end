@@ -1,0 +1,53 @@
+/* Keyframes for expanding the width */
+@keyframes expand {
+    from {
+      width: 4%; /* Initial width */
+    }
+    to {
+      width: 10%; /* Expanded width */
+    }
+  }
+  
+  /* Keyframes for shrinking the width */
+  @keyframes shrink {
+    from {
+      width: 10%; /* Expanded width */
+    }
+    to {
+      width: 4%; /* Initial width */
+    }
+  }
+  
+  /* Add a base class for the div */
+  .animated-div {
+    /* height: 100px;
+    width: 100px; /* Initial width */
+    /* background-color: lightblue;
+    transition: width 0.5s ease; */ 
+    width: 4%;
+    height:90vh;
+    background:purple;
+    top:75px;
+    position:absolute;
+    border-radius:0px 5px 5px 0px;
+    box-shadow: 0px 0px 5px #000;
+    z-index: 9999;
+    padding-left: 0.5rem;
+  }
+  
+  .expanded {
+    animation: expand 0.5s forwards;
+  }
+  
+  /* .shrinked {
+    animation: shrink 0.5s forwards;
+  } */
+/* ul {
+    list-style-type:none;
+    padding-left: 0.5rem !important;
+} */
+.animated-div > ul > li{
+  padding: 0px !important;
+  cursor: pointer;
+}
+
