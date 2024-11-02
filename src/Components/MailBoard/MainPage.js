@@ -21,9 +21,7 @@ function MailBoard() {
       const handleEmailClick = (email) => {
         setSelectedEmail(email);
       };
-      useEffect=()=>{
-        config.api
-      }
+    
     
       return (
         <>
