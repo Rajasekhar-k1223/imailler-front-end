@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import WelcomPage from './Components/WelcomPage';
+import WelcomPage from './Components/WelcomePage';
 import LoginForm from './Components/LoginForm';
-import SignupForm from './Components/SignupForm';
+import SignupForm from './Components/SignUpForm';
 import ProtectedRoute from './Components/Protected/ProtectedRoute';
 import MailBoard from './Components/MailBoard/MainPage';
 import Settings from './Components/Settings/Settings';

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FolderSidebar from '../MailComponent/FolderSidebar';
 import EmailList from '../MailComponent/EmailList';
 import EmailContent from '../MailComponent/EmailContent';
 import HeaderPage from '../Header/HeaderPage';
 import SideMenuPage from '../SideMenu/SideMenuPage';
 import EmailToolbar from '../MailComponent/EmailToolbar';
+import config from '../../config';
+
 // import { Container } from './styles';
 
 function MailBoard() {
@@ -19,6 +21,9 @@ function MailBoard() {
       const handleEmailClick = (email) => {
         setSelectedEmail(email);
       };
+      useEffect=()=>{
+        config.api
+      }
     
       return (
         <>
