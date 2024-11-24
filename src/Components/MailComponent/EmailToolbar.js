@@ -1,11 +1,32 @@
-import React from 'react';
-import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
-import { FaEnvelope, FaTrash, FaArchive, FaShieldAlt, FaBroom, FaFolder, FaReply, FaReplyAll, FaForward, FaBolt, FaEnvelopeOpenText, FaTags, FaFlag, FaClock, FaThumbtack, FaPrint, FaRedo } from 'react-icons/fa';
+import React from "react";
+import { Button, Dropdown, DropdownButton } from "react-bootstrap";
+import {
+  FaEnvelope,
+  FaTrash,
+  FaArchive,
+  FaShieldAlt,
+  FaBroom,
+  FaFolder,
+  FaReply,
+  FaReplyAll,
+  FaForward,
+  FaBolt,
+  FaEnvelopeOpenText,
+  FaTags,
+  FaFlag,
+  FaClock,
+  FaThumbtack,
+  FaPrint,
+  FaRedo,
+} from "react-icons/fa";
 
-const EmailToolbar = () => {
+const EmailToolbar = ({ onShowDiv }) => {
+  // const changeParentState = () => {
+  //   onShowDiv(true);
+  // };
   return (
     <div className="d-flex align-items-center p-2 bg-light border ml-5">
-      <Button variant="primary" className="me-2">
+      <Button variant="primary" className="me-2" onClick={onShowDiv}>
         <FaEnvelope /> New mail
       </Button>
       <DropdownButton title="Delete" variant="light" className="me-2">
