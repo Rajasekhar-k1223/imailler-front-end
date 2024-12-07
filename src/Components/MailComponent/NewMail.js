@@ -2,16 +2,21 @@
 import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
+import axios from "axios";
+import config from "../../config";
 const NewMail = ({ onShowDiv }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
+    userId:"",
     to: "",
     cc: "",
     bcc: "",
     subject: "",
     body: "",
   });
-
+  const token = localStorage.getItem('authToken');
+  const userId = localStorage.getItem('userId');
   const [attachments, setAttachments] = useState([]);
 
   const handleChange = (e) => {
@@ -27,9 +32,67 @@ const NewMail = ({ onShowDiv }) => {
     setAttachments([...e.target.files]);
   };
 
-  const handleSend = () => {
+  const handleSend = (e) => {
     console.log("Sending email with data:", formData, attachments);
-    alert("Email sent!");
+    e.preventDefault();
+
+       
+  
+        setIsSubmitting(true);
+        // Create form data to send to the backend
+        const emailData = new FormData();
+        emailData.append("userId", userId);
+        emailData.append("to_email", formData.to);
+        emailData.append("cc_email", formData.cc);
+        emailData.append("subject", formData.subject);
+        emailData.append("body", formData.body);
+        // if (!formData.to || !formData.subject || !formData.message) {
+        //   alert("Please fill in all required fields (To, Subject, Message).");
+        //   return;
+        // }
+        // Attach files
+        attachments.forEach((file, index) => {
+          emailData.append(`attachments`, file); // Append each file
+        });
+        console.log(emailData);
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: 'https://mailapi.imailler.com/api/send_email',
+          headers: { 
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer '+token
+          },
+          data : emailData
+        };
+        
+        axios.request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        // try {
+        //   // Simulate sending email via API
+        //   const response = await fetch("/api/send-mail", {
+        //     method: "POST",
+        //     body: emailData,
+        //   });
+  
+        //   if (response.ok) {
+        //     alert("Mail sent successfully!");
+        //     setFormData({ to: "", cc: "", subject: "", message: "" });
+        //     setAttachments([]);
+        //   } else {
+        //     alert("Failed to send email. Please try again.");
+        //   }
+        // } catch (error) {
+        //   console.error("Error sending email:", error);
+        //   alert("An error occurred while sending email.");
+        // }
+  
+        // setIsSubmitting(false);
     // You would integrate an API here to send the email
   };
   //   const [formData, setFormData] = useState({
@@ -111,7 +174,7 @@ const NewMail = ({ onShowDiv }) => {
         <div style={dialogContentStyle}>
           {/* <h2>Dialog Box</h2>
           <p>This is a simple dialog box triggered by a button click.</p> */}
-          <button style={{ float: "right" }} onClick={onShowDiv}>
+          <button style={{ float: "right",position: "relative",bottom:" 0.7rem",borderRadius: "2rem" }} onClick={onShowDiv}>
             X
           </button>
           <div
@@ -125,86 +188,91 @@ const NewMail = ({ onShowDiv }) => {
             }}
           >
             <h3 style={{ textAlign: "left" }}>New Message</h3>
-            <form>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
-                  To:{" "}
-                  <input
-                    type="email"
-                    name="to"
-                    value={formData.to}
-                    onChange={handleChange}
-                    placeholder="Enter recipient email"
-                    required
-                    style={{
-                      width: "90%",
-                      padding: "8px",
-                      marginTop: "5px",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                    }}
-                  />
+            <form >
+            <div style={{ marginBottom: "10px" }}  class="form-horizontal">
+            <div class="form-group mb-2">
+                <label class="row">
+                  <span class="col-md-1 control-label" style={{width:'9%'}}>To</span>
+                  <span class="col-md-1 control-label" style={{width:'5%'}}>:</span>
+                  <div class="col-md-10 mail-fields">
+                    <input class="form-control" type="email"
+                          name="to"
+                          value={formData.to}
+                          onChange={handleChange}
+                          placeholder="Enter recipient email"
+                          required
+                          style={{
+                            flex: "1",
+                            padding: "8px",
+                            border: "1px solid #ccc",
+                            borderRadius: "5px",
+                          }}/>
+                  </div>
                 </label>
-              </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
-                  Cc:{" "}
-                  <input
-                    type="email"
-                    name="cc"
-                    value={formData.cc}
-                    onChange={handleChange}
-                    placeholder="Enter CC emails (optional)"
-                    style={{
-                      width: "90%",
-                      padding: "8px",
-                      marginTop: "5px",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                    }}
-                  />
+            </div>
+            <div class="form-group mb-2">
+                <label class="row">
+                  <span class="col-md-1 control-label" style={{width:'9%'}}>Cc</span>
+                  <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
+                  <div class="col-md-10 mail-fields">
+                    <input class="form-control" type="email"
+                        name="to"
+                        value={formData.cc}
+                        onChange={handleChange}
+                        placeholder="Enter recipient email"
+                        required
+                        style={{
+                          flex: "1",
+                          padding: "8px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                        }}/>
+                  </div>
                 </label>
-              </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
-                  Bcc:{" "}
-                  <input
-                    type="email"
-                    name="bcc"
-                    value={formData.bcc}
-                    onChange={handleChange}
-                    placeholder="Enter BCC emails (optional)"
-                    style={{
-                      width: "90%",
-                      padding: "8px",
-                      marginTop: "5px",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                    }}
-                  />
+            </div>
+            <div class="form-group mb-2">
+                <label class="row">
+                  <span class="col-md-1 control-label" style={{width:'9%'}}>Bcc</span>
+                  <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
+                  <div class="col-md-10 mail-fields">
+                    <input class="form-control" type="email"
+                        name="to"
+                        value={formData.bcc}
+                        onChange={handleChange}
+                        placeholder="Enter recipient email"
+                        required
+                        style={{
+                          flex: "1",
+                          padding: "8px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                        }}/>
+                  </div>
                 </label>
-              </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
-                  Subject:{" "}
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Enter email subject"
-                    style={{
-                      width: "90%",
-                      padding: "8px",
-                      marginTop: "5px",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                    }}
-                  />
+            </div>
+            <div class="form-group mb-2">
+                <label class="row">
+                  <span class="col-md-1 control-label" style={{width:'9%'}}>Subject</span>
+                  <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
+                  <div class="col-md-10 mail-fields">
+                    <input class="form-control" type="email"
+                        name="to"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        placeholder="Enter recipient email"
+                        required
+                        style={{
+                          flex: "1",
+                          padding: "8px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                        }}/>
+                  </div>
                 </label>
-              </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
+            </div>
+             </div>
+              <div style={{ marginBottom: "10px",height:"13rem" }}>
+                <label style={{ display: "block", fontWeight: "bold",textAlign:"left" }}>
                   Message:
                 </label>
                 <ReactQuill
@@ -213,8 +281,29 @@ const NewMail = ({ onShowDiv }) => {
                   style={{ height: "150px" }}
                 />
               </div>
-              <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", fontWeight: "bold" }}>
+              <div class="form-group mb-2">
+                <label class="row">
+                  <span class="col-md-1 control-label" style={{width:'9%'}}>Attachments</span>
+                  <span class="col-md-1 control-label" style={{width:'5%'}}>:</span>
+                  <div class="col-md-10 mail-fields text-end">
+                  <input
+                  type="file"
+                  multiple
+                  onChange={handleFileUpload}
+                  style={{ marginTop: "5px",width:'110px' }}
+                />
+                {attachments.length > 0 && (
+                  <ul style={{ marginTop: "10px" }}>
+                    {attachments.map((file, index) => (
+                      <li key={index}>{file.name}</li>
+                    ))}
+                  </ul>
+                )}
+                  </div>
+                </label>
+            </div>
+              {/* <div style={{ marginBottom: "10px" }}>
+                <label style={{ display: "block", fontWeight: "bold",textAlign:"left" }}>
                   Attachments:
                 </label>
                 <input
@@ -230,14 +319,29 @@ const NewMail = ({ onShowDiv }) => {
                     ))}
                   </ul>
                 )}
-              </div>
+              </div> */}
+              <button
+                type="button"
+                onClick={handleSend}
+                style={{
+                  backgroundColor: "#464646",
+                  color: "#fff",
+                  padding: "5px 20px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginRight:"1rem"
+                }}
+              >
+                Cancel
+              </button>
               <button
                 type="button"
                 onClick={handleSend}
                 style={{
                   backgroundColor: "#007BFF",
                   color: "#fff",
-                  padding: "10px 20px",
+                  padding: "5px 20px",
                   border: "none",
                   borderRadius: "5px",
                   cursor: "pointer",

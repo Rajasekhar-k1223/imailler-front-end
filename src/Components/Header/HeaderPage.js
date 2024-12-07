@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from "axios";
+import config from '../../config';
 import { useNavigate, useLocation} from "react-router-dom";
 import './header.css';
-import logo from '../../assets/images/logo_.png'
+import logo from '../../assets/images/logo.png'
+
 export default function HeaderPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +37,7 @@ export default function HeaderPage() {
     console.log(token)
     try {
       // Call the logout API
-      await axios.post('http://127.0.0.1:5001/api/logout', {}, {
+      await axios.post(config.api.url+'/api/logout', {}, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -90,6 +92,7 @@ navigate("/login")
     </div>
         </div>
         </div>
+        <div style={{clear:"both"}}></div>
     </div>
   )
 }

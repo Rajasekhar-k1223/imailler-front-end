@@ -29,45 +29,46 @@ const EmailToolbar = ({ onShowDiv }) => {
       <Button variant="primary" className="me-2" onClick={onShowDiv}>
         <FaEnvelope /> New mail
       </Button>
-      <DropdownButton title="Delete" variant="light" className="me-2">
+
+      <DropdownButton title="Delete" variant="light" className="me-2" disabled='true'>
         <Dropdown.Item>Delete</Dropdown.Item>
         <Dropdown.Item>Move to Trash</Dropdown.Item>
       </DropdownButton>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaArchive /> Archive
       </Button>
-      <DropdownButton title="Report" variant="light" className="me-2">
+      <DropdownButton title="Report" variant="light" className="me-2" disabled='true'>
         <Dropdown.Item>Spam</Dropdown.Item>
         <Dropdown.Item>Phishing</Dropdown.Item>
       </DropdownButton>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaBroom /> Sweep
       </Button>
-      <DropdownButton title="Move to" variant="light" className="me-2">
+      <DropdownButton title="Move to" variant="light" className="me-2" disabled='true'>
         <Dropdown.Item>Folder 1</Dropdown.Item>
         <Dropdown.Item>Folder 2</Dropdown.Item>
       </DropdownButton>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaReply /> Reply
       </Button>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaReplyAll /> Reply all
       </Button>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaForward /> Forward
       </Button>
-      <DropdownButton title="Quick steps" variant="light" className="me-2">
+      <DropdownButton title="Quick steps" variant="light" className="me-2" disabled='true'>
         <Dropdown.Item>Step 1</Dropdown.Item>
         <Dropdown.Item>Step 2</Dropdown.Item>
       </DropdownButton>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaEnvelopeOpenText /> Read/Unread
       </Button>
-      <DropdownButton title="Tag" variant="light" className="me-2">
+      <DropdownButton title="Tag" variant="light" className="me-2" disabled='true'>
         <Dropdown.Item>Tag 1</Dropdown.Item>
         <Dropdown.Item>Tag 2</Dropdown.Item>
       </DropdownButton>
-      <Button variant="light" className="me-2">
+      <Button variant="light" className="me-2" disabled='true'>
         <FaFlag /> Flag
       </Button>
       {/* <DropdownButton title="Reminder" variant="light" className="me-2">

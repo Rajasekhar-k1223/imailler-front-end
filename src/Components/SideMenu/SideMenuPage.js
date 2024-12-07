@@ -7,7 +7,8 @@ import { FaCircleUser } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 import { BiLogOutCircle } from "react-icons/bi";
 import { Navigate } from 'react-router-dom';
-
+import axios from "axios";
+import config from '../../config';
 
 export default function SideMenuPage() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -45,6 +46,26 @@ export default function SideMenuPage() {
     console.log(url)
     navigate(url)
   }
+  const handleLogout = async () => {
+    const token = localStorage.getItem('authToken');
+    console.log(token)
+    try {
+      // Call the logout API
+      await axios.post(config.api.url+'/api/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      // On successful logout, remove the token from localStorage
+      localStorage.removeItem('authToken');
+
+      // Redirect to login page
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error.response ? error.response.data : error);
+    }
+  };
   return (
     <div
       className={`animated-div ${isExpanded ? 'expanded' : 'shrinked'}`}
@@ -75,7 +96,7 @@ export default function SideMenuPage() {
             {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Settings</div>}
           </div>
           <div style={{clear:"both"}}></div></li>
-          <li> <div onClick={()=>showInbox("logout")}>
+          <li> <div onClick={handleLogout}>
             <BiLogOutCircle color='#fff' size={25} style={{ margin: '0.5rem',float:"left" }} />
             {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Logout</div>}
           </div>

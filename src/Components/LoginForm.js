@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import config from "../config";
 import { useNavigate } from "react-router-dom";
 import signup from "../assets/images/3856358.jpg";
 import bottom from "../assets/images/2915898.jpg";
+
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +14,7 @@ const LoginForm = () => {
     // Perform login logic here
     console.log("Login with:", { email, password });
     try {
-      const response = await axios.post("http://127.0.0.1:5001/api/login", {
+      const response = await axios.post(config.api.url+"/api/login", {
         username: email,
         password: password,
       });
@@ -20,6 +22,8 @@ const LoginForm = () => {
       console.log("Login successful", response);
       // Do something with the response, such as storing the token in localStorage
       localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("username", response.data.username);
       // Redirect to another page or update state
       navigator('/dashboard');
     } catch (error) {

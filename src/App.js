@@ -42,24 +42,24 @@ const App = () => {
       <Route path="/" element={<WelcomPage />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/signup" element={<SignupForm />} />
-      <Route path="/dashboard" element={<MailBoard />} />
+      {/* <Route path="/dashboard" element={<MailBoard />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="/profile" element={<UserProfile />} />
+      <Route path="/profile" element={<UserProfile />} /> */}
 
       {/* Protected Routes */}
-      {/* <Route
+      <Route
         path="/dashboard"
         element={<ProtectedRoute element={MailBoard} />}
-      /> */}
+      />
+      <Route
+        path="/settings"
+        element={<ProtectedRoute element={Settings} />}
+      />
+      <Route
+        path="/profile"
+        element={<ProtectedRoute element={UserProfile} />}
+      />
       {/* <Route
-        path="/createDomain"
-        element={<ProtectedRoute element={CreateDomain} />}
-      />
-      <Route
-        path="/domainDetails"
-        element={<ProtectedRoute element={DomainDetails} />}
-      />
-      <Route
         path="/getMXCname"
         element={<ProtectedRoute element={GetMXCname} />}
       /> */}
