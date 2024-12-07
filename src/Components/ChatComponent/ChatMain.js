@@ -517,7 +517,7 @@ export default function ChatMain() {
   
   useEffect(()=>{
    
-    setuserList(users)
+    setuserList(JSON.stringify(users))
   },[])
   const activeUsers = users.filter(user => user.active);
   const inactiveUsers = users.filter(user => !user.active);
