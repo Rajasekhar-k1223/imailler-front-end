@@ -8,20 +8,21 @@ import ProtectedRoute from './Components/Protected/ProtectedRoute';
 import MailBoard from './Components/MailBoard/MainPage';
 import Settings from './Components/Settings/Settings';
 import UserProfile from './Components/Profile/UserProfile';
+import AboutUs from './Components/AboutUs';
 
 
 const App = () => {
-  const [emails, setEmails] = useState([
-    { from: 'Nidhi Mishra', subject: 'Changing the timings', time: '11:09 AM', content: 'Details about the meeting.' },
-    { from: 'Google Cloud', subject: 'Gen AI Exchange Hackathon', time: '6:11 AM', content: 'Submit your solutions.' },
-    // Add more emails
-  ]);
+  // const [emails, setEmails] = useState([
+  //   { from: 'Nidhi Mishra', subject: 'Changing the timings', time: '11:09 AM', content: 'Details about the meeting.' },
+  //   { from: 'Google Cloud', subject: 'Gen AI Exchange Hackathon', time: '6:11 AM', content: 'Submit your solutions.' },
+  //   // Add more emails
+  // ]);
 
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  // const [selectedEmail, setSelectedEmail] = useState(null);
 
-  const handleEmailClick = (email) => {
-    setSelectedEmail(email);
-  };
+  // const handleEmailClick = (email) => {
+  //   setSelectedEmail(email);
+  // };
 
   return (
     <BrowserRouter>
@@ -42,13 +43,14 @@ const App = () => {
       <Route path="/" element={<WelcomPage />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/signup" element={<SignupForm />} />
+      <Route path="/aboutus" element={<AboutUs />} />
       {/* <Route path="/dashboard" element={<MailBoard />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/profile" element={<UserProfile />} /> */}
 
       {/* Protected Routes */}
       <Route
-        path="/dashboard"
+        path="/inbox"
         element={<ProtectedRoute element={MailBoard} />}
       />
       <Route

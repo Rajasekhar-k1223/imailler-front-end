@@ -32,7 +32,48 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.welcome-page>div>p {
+  font-size: larger;
+  font-weight: 500;
+  font-family: sans-serif;
+  /* line-height: revert; */
+  text-align: justify;
+  text-indent: 4.5rem;
+}
+
+.welcome-page>div>button {
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(154deg, #ff586a, #fed8c5, #ff586a);
+  padding: 0.3rem;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  box-shadow: 0px 0px 5px #ff586a;
+  float: right;
+}
+
+.welcome-page>div>button:hover {
+  background: linear-gradient(74deg, #ff586a, #fed8c5, #ff586a);
+
+}
+
+.space50 {
+  padding: 5rem;
+}
+
+footer {
+  height: 80px;
+  width: 100%;
+  background: #2b2a2a;
+  text-align: center;
+  color: #fff;
+  line-height: 80px;
 }

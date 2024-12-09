@@ -25,7 +25,7 @@ const LoginForm = () => {
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("username", response.data.username);
       // Redirect to another page or update state
-      navigator('/dashboard');
+      navigator('/inbox');
     } catch (error) {
       console.error("Login failed", error.response);
       // Handle error, show notification, etc.

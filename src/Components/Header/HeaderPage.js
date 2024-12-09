@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import config from '../../config';
 import { useNavigate, useLocation} from "react-router-dom";
 import './header.css';
@@ -22,7 +22,6 @@ export default function HeaderPage() {
   };
 
   useEffect(() => {
-    console.log(location.pathname)
     // Add event listener to listen for clicks outside the dropdown
     document.addEventListener('mousedown', handleClickOutside);
 
@@ -55,6 +54,18 @@ export default function HeaderPage() {
 const signinPage = ()=>{
 navigate("/login")
 }
+const signupPage = ()=>{
+navigate("/signup")
+}
+const aboutusPage = ()=>{
+navigate("/aboutus")
+}
+const contactusPage = ()=>{
+navigate("/contactus")
+}
+const homePage = ()=>{
+navigate("/")
+}
   return (
     location.pathname === '/' ? <div className='header-mainPage'>
             <div className='header-inside'>
@@ -63,7 +74,21 @@ navigate("/login")
       </div>
       <div className='head-body'></div>
         <div className='head-right-side'>
-          <div className='header-signin' onClick={signinPage}>SignIn</div>
+          <div className='header-signin' onClick={signinPage}>Login</div>
+        </div>
+        <div className='head-right-side'>
+          <div className='header-signin' onClick={signupPage}>SignUp</div>
+        </div>
+        
+        <div className='head-right-side mr-5' style={{marginRight:'10rem'}}>
+          <div className='header-signin' onClick={contactusPage}>Contact Us</div>
+        </div>
+        <div className='head-right-side' style={{marginRight:'5rem'}}>
+          <div className='header-signin' onClick={aboutusPage}>About Us</div>
+        </div>
+        
+        <div className='head-right-side' style={{marginRight:'5rem'}}>
+          <div className='header-signin' onClick={homePage}>Home</div>
         </div>
         </div>
 

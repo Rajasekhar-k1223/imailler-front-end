@@ -1,80 +1,85 @@
-body{
-    overflow: hidden;
-}
-.mail-tab{
-    height:90vh;
-    border-right:4px double #000;
-    padding: 0rem !important;
-    padding-left: 3.5rem !important;
-    overflow-y: auto;
-    cursor: pointer;
+.mail-tab {
+  height: 90vh;
+  border-right: 4px double #000;
+  padding: 0rem !important;
+  padding-left: 3.5rem !important;
+  overflow-y: auto;
+  cursor: pointer;
 }
 
-.mail-box-list{
-    height:83vh;
-    overflow-y: auto;
-    border-Right:4px double gray;
+.mail-box-list {
+  height: 83vh;
+  overflow-y: auto;
+  border-Right: 4px double gray;
 }
 
-.mail-box{
-    box-Shadow:0px 0px 5px gray;
-    padding:1rem;
-    margin-Bottom:0.4rem;
-    border-Radius:3;
-    cursor: pointer;
+.mail-box {
+  box-Shadow: 0px 0px 5px gray;
+  padding: 1rem;
+  margin-Bottom: 0.4rem;
+  border-Radius: 3;
+  cursor: pointer;
 }
-.mail-box:hover{
-    box-Shadow:0px 0px 5px gray inset;
-    padding:1rem;
-    margin-Bottom:0.4rem;
-    border-Radius:3;
-    border-radius: 5px;
-}
-.mail-tab > ul > li:hover{
-    box-shadow: 0px 0px 5px #000 inset;
-  }
 
-  .email-container {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .email {
-    display: none; /* Hide the email by default */
-  }
-  
-  .email-container:hover .email {
-    display: inline; /* Show email when hovered over the container */
-  }
-  
-  .name {
-    cursor: pointer; /* Optional: to show a pointer cursor when hovering over the name */
-  }
-  .custom-scrollbar {
-    overflow-y: scroll; /* Enable vertical scrolling */
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f0f0f0;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
-  .mail-fields{
-    padding: 0;
-    width: 85% !important;
-  }
-  .mail-list > input{
-    margin-right: 1rem;
-  }
+.mail-box:hover {
+  box-Shadow: 0px 0px 5px gray inset;
+  padding: 1rem;
+  margin-Bottom: 0.4rem;
+  border-Radius: 3;
+  border-radius: 5px;
+}
+
+.mail-tab>ul>li:hover {
+  box-shadow: 0px 0px 5px #000 inset;
+}
+
+.email-container {
+  display: inline-block;
+  position: relative;
+}
+
+.email {
+  display: none;
+  /* Hide the email by default */
+}
+
+.email-container:hover .email {
+  display: inline;
+  /* Show email when hovered over the container */
+}
+
+.name {
+  cursor: pointer;
+  /* Optional: to show a pointer cursor when hovering over the name */
+}
+
+.custom-scrollbar {
+  overflow-y: scroll;
+  /* Enable vertical scrolling */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.mail-fields {
+  padding: 0;
+  width: 85% !important;
+}
+
+.mail-list>input {
+  margin-right: 1rem;
+}

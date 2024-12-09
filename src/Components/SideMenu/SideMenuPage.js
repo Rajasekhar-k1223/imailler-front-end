@@ -81,7 +81,7 @@ export default function SideMenuPage() {
           </div>
           <div style={{clear:"both"}}></div>
         </li>
-        <li> <div onClick={()=>showInbox("dashboard")}>
+        <li> <div onClick={()=>showInbox("inbox")}>
             <MdHome color='#fff' size={25} style={{ margin: '0.5rem',float:"left" }} />
             {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Home</div>}
           </div>
