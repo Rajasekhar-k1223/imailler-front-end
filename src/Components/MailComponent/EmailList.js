@@ -2,15 +2,61 @@ import React, { useState } from 'react';
 import "./MailComponent.css";
 const EmailList = ({ emailsData, onEmailClick }) => {
   const [selectedEmails, setSelectedEmails] = useState({}); // State to track selected emails
-
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [selectedIndices, setSelectedIndices] = useState([]);
    // Handle email selection
-   const handleCheckboxChange = (email, isChecked) => {
-    setSelectedEmails((prev) => ({
-      ...prev,
-      [email.id]: isChecked, // Assume `email.id` is unique for each email
-    }));
-  };
+  //  const handleCheckboxChange = (email, isChecked) => {
+  //   setSelectedEmails((prev) => ({
+  //     ...prev,
+  //     [email.id]: isChecked, // Assume `email.id` is unique for each email
+  //   }));
+  // };
+  const handleCheckboxChange = (index, isChecked) => {
+    let newSelectedIndices = [...selectedIndices];
 
+    if (isChecked) {
+      // Add to selectedIndices if checkbox is checked
+      if (!newSelectedIndices.includes(index)) {
+        newSelectedIndices.push(index);
+      }
+    } else {
+      // Remove from selectedIndices if checkbox is unchecked
+      newSelectedIndices = newSelectedIndices.filter((i) => i !== index);
+       
+    }
+    if(newSelectedIndices.length === 0) {
+        setActiveIndex(null);
+            onEmailClick(null); 
+        } else {
+          setActiveIndex(index); // Highlight the active email
+        }
+
+    setSelectedIndices(newSelectedIndices);
+  };
+    const handleEmailClick = (index, email) => {
+  let newSelectedIndices = [];
+
+    if (newSelectedIndices.includes(index)) {
+      // If the email is already selected, unselect it
+      newSelectedIndices = newSelectedIndices.filter((i) => i !== index);
+    } else {
+      // Select the email if not selected
+      newSelectedIndices.push(index);
+    }
+
+      setSelectedIndices(newSelectedIndices);
+      console.log(newSelectedIndices.length)
+    if (newSelectedIndices.length === 0) {
+      setActiveIndex(null);
+
+  } else {
+    setActiveIndex(index); // Highlight the active email
+     onEmailClick(email);
+  }
+
+    // Call external onEmailClick function
+   
+  };
   // console.log(emailsData)
   const EmailDisplay = ({ from, date }) => {
     // Extract the name using a regular expression
@@ -46,30 +92,28 @@ const EmailList = ({ emailsData, onEmailClick }) => {
                 </div>
             ))} */}
       {emailsData.map((email, index) => (
-        <div 
-          key={index} 
-          className="list-group-item list-group-item-action mail-box"
-          onClick={() => {onEmailClick(email)
-                      handleCheckboxChange(email, true); // Mark as selected on email click
-            }}
+        <div
+          key={index}
+          className={`list-group-item list-group-item-action mail-box ${
+            selectedIndices.includes(index) ? 'active' : ''
+          }  ${activeIndex === index ? 'active' : ''}`}
+          onClick={() => handleEmailClick(index, email)} // Toggle email selection on div click
         >
+          { console.log(selectedIndices)}
           <div className="d-flex justify-content-left mail-list">
-            {/* <h6 className="mb-1">{email.from}</h6>
-            <small>{email.time}</small> */}
-                <input
+            <input
               type="checkbox"
-              checked={!!selectedEmails[email.id]} // Check if the email is selected
+              checked={selectedIndices.includes(index)} // Check if the email is selected by index
               onChange={(e) =>
-                handleCheckboxChange(email, e.target.checked)
+                handleCheckboxChange(index, e.target.checked) // Handle checkbox change by index
               }
-              onClick={(e) => e.stopPropagation()} // Prevent triggering email click
+              onClick={(e) => e.stopPropagation()} // Prevent triggering email click on checkbox change
             />
-               <div>
-                  <EmailDisplay from={email.from} date={email.date} />
-                  <p className="mb-1">{email.subject}</p>
-                </div>
+            <div>
+              <EmailDisplay from={email.from} date={email.date} />
+              <p className="mb-1">{email.subject}</p>
+            </div>
           </div>
-         
         </div>
       ))}
     </div>

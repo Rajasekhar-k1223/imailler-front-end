@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   FaEnvelope,
@@ -20,7 +20,19 @@ import {
   FaRedo,
 } from "react-icons/fa";
 
-const EmailToolbar = ({ onShowDiv }) => {
+const EmailToolbar = ({ onShowDiv, selectedEmail }) => {
+  const [disabled, setDisabled] = useState(true)
+  console.log(selectedEmail)
+  useEffect(() => {
+    if (selectedEmail) {
+      console.log(selectedEmail._id)
+      setDisabled(false); // Enable buttons if selectedEmail exists
+    } else {
+      setDisabled(true); // Disable buttons if selectedEmail is null
+    }
+  }, [selectedEmail]);
+
+  // console.log(selectedEmail !== null ? setdisabled(false):setdisabled(true))
   // const changeParentState = () => {
   //   onShowDiv(true);
   // };
@@ -30,10 +42,9 @@ const EmailToolbar = ({ onShowDiv }) => {
         <FaEnvelope /> New mail
       </Button>
 
-      <DropdownButton title="Delete" variant="light" className="me-2" disabled='true'>
-        <Dropdown.Item>Delete</Dropdown.Item>
-        <Dropdown.Item>Move to Trash</Dropdown.Item>
-      </DropdownButton>
+      <Button title="Delete" variant="light" className="me-2" disabled={disabled}>
+        Delete
+      </Button>
       <Button variant="light" className="me-2" disabled='true'>
         <FaArchive /> Archive
       </Button>

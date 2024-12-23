@@ -83,3 +83,20 @@
 .mail-list>input {
   margin-right: 1rem;
 }
+
+.list-group-item.active {
+  background-color: #007bff;
+  /* Bootstrap default active background */
+  color: white;
+  /* White text */
+  font-weight: bold;
+  /* Highlight the text */
+}
+
+.list-group-item.active {
+  z-index: index 0;
+  background-color: #800080;
+  /* Change this to your desired active background color */
+  border-left: 4px solid #007bff;
+  /* Example of an active border */
+}
