@@ -19,11 +19,26 @@ const NewMail = ({ onShowDiv }) => {
   const userId = localStorage.getItem('userId');
   const [attachments, setAttachments] = useState([]);
 
-  const handleChange = (e) => {
+  const handleChangeto = (e) => {
     const { name, value } = e.target;
+    console.log({[name]: value })
     setFormData({ ...formData, [name]: value });
   };
-
+  const handleChangecc = (e) => {
+    const { name, value } = e.target;
+    console.log({[name]: value })
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleChangebcc = (e) => {
+    const { name, value } = e.target;
+    console.log({[name]: value })
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleChangesubject = (e) => {
+    const { name, value } = e.target;
+    console.log({[name]: value })
+    setFormData({ ...formData, [name]: value });
+  };
   const handleBodyChange = (value) => {
     setFormData({ ...formData, body: value });
   };
@@ -69,6 +84,10 @@ const NewMail = ({ onShowDiv }) => {
         axios.request(config)
         .then((response) => {
           console.log(JSON.stringify(response.data));
+          if(response.data.status === 200){
+            onShowDiv()
+          }
+
         })
         .catch((error) => {
           console.log(error);
@@ -159,7 +178,7 @@ const NewMail = ({ onShowDiv }) => {
 
   const handleOpenDialog = () => {
     // setIsDialogOpen(true);
-    console.log("NewMail");
+    console.log("NewMail"); 
   };
 
   const handleCloseDialog = () => {
@@ -174,7 +193,7 @@ const NewMail = ({ onShowDiv }) => {
         <div style={dialogContentStyle}>
           {/* <h2>Dialog Box</h2>
           <p>This is a simple dialog box triggered by a button click.</p> */}
-          <button style={{ float: "right",position: "relative",bottom:" 0.7rem",borderRadius: "2rem" }} onClick={onShowDiv}>
+          <button style={{float: "right",position: "relative",bottom:" 0.7rem",borderRadius: "2rem" }} onClick={onShowDiv}>
             X
           </button>
           <div
@@ -198,7 +217,7 @@ const NewMail = ({ onShowDiv }) => {
                     <input class="form-control" type="email"
                           name="to"
                           value={formData.to}
-                          onChange={handleChange}
+                          onChange={handleChangeto}
                           placeholder="Enter recipient email"
                           required
                           style={{
@@ -216,9 +235,9 @@ const NewMail = ({ onShowDiv }) => {
                   <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
                   <div class="col-md-10 mail-fields">
                     <input class="form-control" type="email"
-                        name="to"
+                        name="cc"
                         value={formData.cc}
-                        onChange={handleChange}
+                        onChange={handleChangecc}
                         placeholder="Enter recipient email"
                         required
                         style={{
@@ -236,9 +255,9 @@ const NewMail = ({ onShowDiv }) => {
                   <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
                   <div class="col-md-10 mail-fields">
                     <input class="form-control" type="email"
-                        name="to"
+                        name="bcc"
                         value={formData.bcc}
-                        onChange={handleChange}
+                        onChange={handleChangebcc}
                         placeholder="Enter recipient email"
                         required
                         style={{
@@ -256,9 +275,9 @@ const NewMail = ({ onShowDiv }) => {
                   <span class="col-md-1 control-label" style={{width:"5%"}}>:</span>
                   <div class="col-md-10 mail-fields">
                     <input class="form-control" type="email"
-                        name="to"
+                        name="subject"
                         value={formData.subject}
-                        onChange={handleChange}
+                        onChange={handleChangesubject}
                         placeholder="Enter recipient email"
                         required
                         style={{
@@ -322,7 +341,7 @@ const NewMail = ({ onShowDiv }) => {
               </div> */}
               <button
                 type="button"
-                onClick={handleSend}
+                onClick={onShowDiv}
                 style={{
                   backgroundColor: "#464646",
                   color: "#fff",
@@ -457,6 +476,7 @@ const dialogStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  zIndex:9999,
 };
 
 const dialogContentStyle = {

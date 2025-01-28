@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import "./MailComponent.css";
-const EmailList = ({ emailsData, onEmailClick }) => {
+const EmailListSent = ({ emailsData, onEmailClick }) => {
   const [selectedEmails, setSelectedEmails] = useState({}); // State to track selected emails
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedIndices, setSelectedIndices] = useState([]);
-  const [hoveredId, setHoveredId] = useState(""); // Tracks the hovered item ID
-  const [showPopup, setShowPopup] = useState(false); // Tracks whether to show the popup
-  const [timer, setTimer] = useState(null); // Stores the timeout ID
    // Handle email selection
   //  const handleCheckboxChange = (email, isChecked) => {
   //   setSelectedEmails((prev) => ({
@@ -14,20 +11,6 @@ const EmailList = ({ emailsData, onEmailClick }) => {
   //     [email.id]: isChecked, // Assume `email.id` is unique for each email
   //   }));
   // };
-  const handleMouseEnter = (id) => {
-    console.log(id)
-    const timeout = setTimeout(() => {
-      setHoveredId(id);
-      setShowPopup(true);
-    }, 2000); // Show popup after 2 seconds
-    setTimer(timeout); // Store the timeout
-  };
-
-  const handleMouseLeave = () => {
-    clearTimeout(timer); // Clear the timeout if the user leaves early
-    setHoveredId(null);
-    setShowPopup(false); // Hide the popup
-  };
   const handleCheckboxChange = (index, isChecked) => {
     let newSelectedIndices = [...selectedIndices];
 
@@ -78,9 +61,26 @@ const EmailList = ({ emailsData, onEmailClick }) => {
   const EmailDisplay = ({ from, date }) => {
     // Extract the name using a regular expression
     const emailRegex = /^(.*)\s<([^>]+)>$/;
-    const match = from.match(emailRegex);
-  
-    const name = match ? match[1] : from; // Extract name
+    const extractName = (email) => {
+      // Try to match the name and email with the regex
+      const match = email.match(emailRegex);
+    
+      if (match) {
+        // If regex matches, return the name
+        return match[1];
+      } else {
+        // If regex doesn't match, extract the part before '@' and capitalize it
+        const emailParts = email.split("@")[0]; // Get the part before '@'
+        return emailParts
+          .split(".") // Split by '.' if present
+          .map(part => part.charAt(0).toUpperCase() + part.slice(1)) // Capitalize each part
+          .join(" "); // Join parts with space
+      }
+    };
+    console.log(from)
+    const recipients = from?.map(extractName);
+    console.log(recipients)
+    // Format the date
     const formattedDate = new Date(date).toLocaleString(undefined, {
       year: 'numeric',
       month: '2-digit',
@@ -91,13 +91,13 @@ const EmailList = ({ emailsData, onEmailClick }) => {
     });
   
     return (
-     <div className="email-container d-flex justify-content-between align-items-center">
-<div className="name">
-  {name} {/* Join all names/emails into a string */}
-</div>
-<div className="date-time">
-  <small>{formattedDate}</small>
-</div>
+      <div className="email-container d-flex justify-content-between align-items-center">
+  <div className="name">
+    <span>to :</span> {recipients} {/* Join all names/emails into a string */}
+  </div>
+  <div className="date-time">
+    <small>{formattedDate}</small>
+  </div>
 </div>
     );
   };
@@ -121,8 +121,6 @@ const EmailList = ({ emailsData, onEmailClick }) => {
             selectedIndices.includes(index) ? 'active' : ''
           }  ${activeIndex === index ? 'active' : ''}`}
           onClick={() => handleEmailClick(index, email)} // Toggle email selection on div click
-          // onMouseEnter={() => handleMouseEnter(email.msgId)}
-          // onMouseLeave={handleMouseLeave}
         >
           <div className="d-flex justify-content-left mail-list">
             <input
@@ -134,32 +132,14 @@ const EmailList = ({ emailsData, onEmailClick }) => {
               onClick={(e) => e.stopPropagation()} // Prevent triggering email click on checkbox change
             />
             <div className='w-100'>
-              <EmailDisplay from={email.from} date={email.date} />
+              <EmailDisplay from={email.to} date={email.date} />
               <p className="mb-1">{email.subject}</p>
             </div>
           </div>
         </div>
       ))}
-       {showPopup && hoveredId && (
-        <div
-          style={{
-            position: "absolute",
-            top: "50px",
-            left: "50px",
-            padding: "10px",
-            border: "1px solid #333",
-            background: "#fff",
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <p>
-            <strong>Details:</strong>{" "}
-            {/* {data.find((item) => item.id === hoveredId)?.details} */}
-          </p>
-        </div>
-      )}
     </div>
   );
 };
 
-export default EmailList;
+export default EmailListSent;

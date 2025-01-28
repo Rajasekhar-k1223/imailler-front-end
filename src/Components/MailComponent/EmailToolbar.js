@@ -42,7 +42,7 @@ const EmailToolbar = ({ onShowDiv, selectedEmail }) => {
         <FaEnvelope /> New mail
       </Button>
 
-      <Button title="Delete" variant="light" className="me-2" disabled={disabled}>
+      <Button title="Delete" className={`me-2 ${disabled ? 'btn btn-primary' : 'btn btn-danger'}`} disabled={disabled} >
         Delete
       </Button>
       <Button variant="light" className="me-2" disabled='true'>

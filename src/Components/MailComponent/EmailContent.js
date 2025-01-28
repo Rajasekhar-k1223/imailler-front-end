@@ -237,11 +237,68 @@
 // };
 
 // export default EmailContent;
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SanitizeHtml from './SanitizeHtml';
-const EmailContent = ({ selectedEmail }) => {
-  const [showAll, setShowAll] = useState(false);
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import {
+  FaEnvelope,
+  FaTrash,
+  FaArchive,
+  FaShieldAlt,
+  FaBroom,
+  FaFolder,
+  FaReply,
+  FaReplyAll,
+  FaForward,
+  FaBolt,
+  FaEnvelopeOpenText,
+  FaTags,
+  FaFlag,
+  FaClock,
+  FaThumbtack,
+  FaPrint,
+  FaRedo,
+} from "react-icons/fa";
 
+
+import config from "../../config";
+const EmailContent = ({ selectedEmail }) => {
+  const navigate = useNavigate();
+  const [showAll, setShowAll] = useState(false);
+    const [Email,setEmails] = useState([])
+    const token = localStorage.getItem('authToken');
+    const username = localStorage.getItem('username');
+  // console.log(selectedEmail.msgId)
+  useEffect(() => {
+    if (selectedEmail?.msgId) {
+      console.log(selectedEmail?.msgId)
+      console.log(`${config.api.url}/api/email-details?msgId=${encodeURIComponent(selectedEmail.msgId)}`)
+      const fetchEmailDetails = async () => {
+        const configapi = {
+          method: 'get',
+          url: `${config.api.url}/api/email-details?msgId=${encodeURIComponent(selectedEmail.msgId)}`,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        };
+
+        try {
+          const response = await axios.request(configapi);
+          console.log(response)
+          setEmails(response.data.data);
+        } catch (error) {
+          console.error('Error:', error);
+          if (error.response?.status === 401 || error.response?.statusText === 'UNAUTHORIZED') {
+            navigate('/login');
+          }
+        }
+      };
+
+      fetchEmailDetails();
+    }
+  }, [selectedEmail, token, navigate]);
   /**
    * 🧹 **Parse Email Replies**
    * Cleans the email body by removing markers and separating messages into chunks.
@@ -300,6 +357,7 @@ const EmailContent = ({ selectedEmail }) => {
    * Extracts and displays sender name and email separately.
    */
   const EmailHover = ({ from }) => {
+    console.log(from)
     const emailRegex = /^(.*)\s<([^>]+)>$/;
     const match = from.match(emailRegex);
     const name = match ? match[1] : from;
@@ -318,22 +376,40 @@ const EmailContent = ({ selectedEmail }) => {
 
   return (
     <div className="col-7 p-3 custom-scrollbar" style={{ overflowY: 'auto', maxHeight: '83vh' }}>
-      {selectedEmail ? (
-        <>
-          {/* 📧 Email Subject */}
-          <h5 style={{ marginBottom: '10px' }}>{selectedEmail.subject}</h5>
-          
-          {/* 👤 Email Sender Details */}
-          <p className="text-muted">
-            <EmailHover from={selectedEmail.from} /> - {dateConvert(selectedEmail.date)}
-          </p>
-          <hr />
+    {console.log(Email.length)}
+      {Email.length > 0 ? (
 
-          <SanitizeHtml htmlContent={selectedEmail.html_body} />
-        </>
+
+          Email.map((email, index) => {
+            return (
+            <div key={index}>
+              {console.log(email)}
+            {/* 📧 Email Subject */}
+            <h5 style={{ marginBottom: '10px',float:"left" }}>{email.subject}</h5>
+            <div style={{width:"100px",fontSize:"20px",marginRight:"10px",float:"right",display: "flex",justifyContent: "space-between"}}>
+            <FaReply onClick={()=>replay()} style={{cursor:"pointer"}}/> 
+             <FaReplyAll onClick={()=>replayAll()} style={{cursor:"pointer"}}/>
+              <FaForward onClick={()=>forward()} style={{cursor:"pointer"}}/>
+              
+              </div>
+              <div style={{clear:"both"}}></div>
+            {/* 👤 Email Sender Details */}
+            <p className="text-muted">
+              <EmailHover from={email.from} /> - {dateConvert(email.date)}
+            </p>
+            
+            <hr />
+      
+            {/* 📝 Email HTML Body */}
+            <SanitizeHtml htmlContent={email.htmlBody} />
+          </div>)
+          })
+          
       ) : (
         <p className="text-muted">Select an email to view content</p>
-      )}
+      )
+    
+    }
       
     </div>
   );

@@ -5,10 +5,11 @@ import WelcomPage from './Components/WelcomePage';
 import LoginForm from './Components/LoginForm';
 import SignupForm from './Components/SignUpForm';
 import ProtectedRoute from './Components/Protected/ProtectedRoute';
-import MailBoard from './Components/MailBoard/MainPage';
+import Inbox from './Components/MailBoard/Inbox';
 import Settings from './Components/Settings/Settings';
 import UserProfile from './Components/Profile/UserProfile';
 import AboutUs from './Components/AboutUs';
+import Sent from './Components/MailBoard/Sent';
 
 
 const App = () => {
@@ -51,7 +52,11 @@ const App = () => {
       {/* Protected Routes */}
       <Route
         path="/inbox"
-        element={<ProtectedRoute element={MailBoard} />}
+        element={<ProtectedRoute element={Inbox} />}
+      />
+      <Route
+        path="/sent"
+        element={<ProtectedRoute element={Sent} />}
       />
       <Route
         path="/settings"

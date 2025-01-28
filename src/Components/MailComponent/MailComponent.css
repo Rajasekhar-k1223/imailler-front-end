@@ -15,17 +15,17 @@
 
 .mail-box {
   box-Shadow: 0px 0px 5px gray;
-  padding: 1rem;
-  margin-Bottom: 0.4rem;
-  border-Radius: 3;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .mail-box:hover {
   box-Shadow: 0px 0px 5px gray inset;
-  padding: 1rem;
-  margin-Bottom: 0.4rem;
-  border-Radius: 3;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
+  border-radius: 5px;
   border-radius: 5px;
 }
 
@@ -33,9 +33,28 @@
   box-shadow: 0px 0px 5px #000 inset;
 }
 
-.email-container {
+/* .email-container {
   display: inline-block;
   position: relative;
+  display: flex !important;
+  justify-content: space-between !important;
+} */
+.email-container {
+  display: flex;
+  justify-content: space-between; /* Align items on opposite ends */
+  align-items: center; /* Vertically align the text */
+  padding: 8px 0px 0px 0px; /* Add spacing inside the container */
+}
+
+.name {
+  margin-right: 8px; /* Space between name and date/time */
+  font-size: 14px; /* Adjust as needed */
+}
+
+.date-time {
+  margin-left: 8px; /* Ensure spacing from the name */
+  font-size: 12px; /* Adjust the font size */
+  color: gray; /* Optional: Add a lighter color for the date/time */
 }
 
 .email {
