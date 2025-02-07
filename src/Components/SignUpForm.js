@@ -16,7 +16,7 @@ const SignupForm = () => {
     console.log("Signup with:", { name, email, password });
     const data = {
       "username":email,
-      "password":password,
+      // "password":password,
       "name":name,
       "language":"eng",
       "mailboxformat":"maildir",
@@ -25,19 +25,22 @@ const SignupForm = () => {
       "storagenode":"vmail1",
       "maildir":"",
       "quota":1024,
-      "domain":"imailler.com",
+      "domainName":"imailler.com",
       "transport":"",
       "department":"",
       "rank":"",
       "employeeid":"",
       "isadmin":0,
-      "isglobaladmin":0
+      "isglobaladmin": 0,
+      "newpw":password,
+      "confirmpw":password,
+      "store_password_in_plain_text":"store_password_in_plain_text"
   }
   console.log(data)
   let configdata = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: config.api.url+'/api/register',
+    url: config.api.url+'/api/add_user',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -47,6 +50,7 @@ const SignupForm = () => {
   axios.request(configdata)
   .then((response) => {
     console.log(JSON.stringify(response.data));
+      navigator('/login');
   })
   .catch((error) => {
     console.log(error);

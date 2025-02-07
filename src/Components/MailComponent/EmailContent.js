@@ -387,9 +387,9 @@ const EmailContent = ({ selectedEmail }) => {
             {/* 📧 Email Subject */}
             <h5 style={{ marginBottom: '10px',float:"left" }}>{email.subject}</h5>
             <div style={{width:"100px",fontSize:"20px",marginRight:"10px",float:"right",display: "flex",justifyContent: "space-between"}}>
-            <FaReply onClick={()=>replay()} style={{cursor:"pointer"}}/> 
-             <FaReplyAll onClick={()=>replayAll()} style={{cursor:"pointer"}}/>
-              <FaForward onClick={()=>forward()} style={{cursor:"pointer"}}/>
+            <FaReply style={{cursor:"pointer"}}/> 
+             <FaReplyAll style={{cursor:"pointer"}}/>
+              <FaForward style={{cursor:"pointer"}}/>
               
               </div>
               <div style={{clear:"both"}}></div>

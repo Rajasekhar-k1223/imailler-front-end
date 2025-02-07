@@ -6,6 +6,8 @@ import { MdHome } from "react-icons/md";
 import { FaCircleUser } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 import { BiLogOutCircle } from "react-icons/bi";
+import { RiCalendarScheduleFill } from "react-icons/ri";
+import { PiChatsFill } from "react-icons/pi";
 import { Navigate } from 'react-router-dom';
 import axios from "axios";
 import config from '../../config';
@@ -89,6 +91,16 @@ export default function SideMenuPage() {
         <li> <div onClick={()=>showInbox("profile")}>
             <FaCircleUser color='#fff' size={25} style={{ margin: '0.5rem',float:"left" }} />
             {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Profile</div>}
+        </div>
+          <div style={{clear:"both"}}></div></li>
+        <li> <div onClick={()=>showInbox("schedule")}>
+            <RiCalendarScheduleFill  color='#fff' size={25} style={{ margin: '0.5rem',float:"left" }} />
+            {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Schedule</div>}
+        </div>
+          <div style={{clear:"both"}}></div></li>
+        <li> <div onClick={()=>showInbox("chats")}>
+            <PiChatsFill  color='#fff' size={25} style={{ margin: '0.5rem',float:"left" }} />
+            {showText && <div style={{ fontSize: '18px', marginTop:"0.5rem", color: '#fff',float:"left" }}>Chats</div>}
           </div>
           <div style={{clear:"both"}}></div></li>
           <li> <div onClick={()=>showInbox("settings")}>

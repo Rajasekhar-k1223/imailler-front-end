@@ -62,7 +62,7 @@ const Sent=()=> {
 //     // };
 // }, [socketRef]);
   useEffect(() => {
-    const socketRef = io("http://157.173.199.49:8765", {
+    const socketRef = io("http://192.168.1.10:8765", {
       query: { debug: "true" }, // Enable debug logs
       transports: ["websocket", "polling"] // Specify transports
     });

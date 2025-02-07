@@ -10,6 +10,7 @@ import Settings from './Components/Settings/Settings';
 import UserProfile from './Components/Profile/UserProfile';
 import AboutUs from './Components/AboutUs';
 import Sent from './Components/MailBoard/Sent';
+import ScheduleMain from './Components/Schedule/ScheduleMain';
 
 
 const App = () => {
@@ -57,6 +58,10 @@ const App = () => {
       <Route
         path="/sent"
         element={<ProtectedRoute element={Sent} />}
+        />
+        <Route
+        path="/schedule"
+        element={<ProtectedRoute element={ScheduleMain} />}
       />
       <Route
         path="/settings"
