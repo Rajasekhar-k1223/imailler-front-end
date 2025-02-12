@@ -11,11 +11,12 @@ import config from "../../config";
 import ChatMain from "../ChatComponent/ChatMain";
 import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
+import { useSocket } from "../../Context/SocketProvider";
 // import { Container } from './styles';
 
 const Inbox=()=> {
   const navigate = useNavigate();
-  
+  const socket = useSocket();
   // const [email setEmails] = useState([
   //   {
   //     from: "Nidhi Mishra",
@@ -62,18 +63,18 @@ const Inbox=()=> {
 //     // };
 // }, [socketRef]);
   useEffect(() => {
-    const socketRef = io("http://192.168.1.10:8765", {
-      query: { debug: "true" }, // Enable debug logs
-      transports: ["websocket", "polling"] // Specify transports
-    });
-    console.log(socketRef)
-     socketRef.on("connect", () => {
+    // const socketRef = io("http://192.168.1.8:8765", {
+    //   query: { debug: "true" }, // Enable debug logs
+    //   transports: ["websocket", "polling"] // Specify transports
+    // });
+    console.log(socket)
+     socket.on("connect", () => {
       console.log("Connected to server");
-      socketRef.emit("register_client", username);
+      socket.emit("register_client", username);
       console.log("Connected to server after connection");
     });
 
-    socketRef.on("new_email", (data) => {
+    socket.on("new_email", (data) => {
       console.log("New email notification received:", data);
       const newEmailData = [data.email_data]
       console.log(newEmailData)
