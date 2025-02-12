@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef  } from "react";
+import React, { useEffect, useState,useRef, useContext  } from "react";
 import FolderSidebar from "../MailComponent/FolderSidebar";
 import EmailList from "../MailComponent/EmailList";
 import EmailContent from "../MailComponent/EmailContent";
@@ -11,12 +11,12 @@ import config from "../../config";
 import ChatMain from "../ChatComponent/ChatMain";
 import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
-import { useSocket } from "../../Context/SocketProvider";
+import { SocketContext } from "../../Context/SocketProvider";
 // import { Container } from './styles';
 
 const Inbox=()=> {
   const navigate = useNavigate();
-  const socket = useSocket();
+  const socket = useContext(SocketContext);
   // const [email setEmails] = useState([
   //   {
   //     from: "Nidhi Mishra",

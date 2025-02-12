@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
-import { useSocket } from "../../Context/SocketProvider";
+import { SocketContext } from "../../Context/SocketProvider";
 import { useNavigate } from "react-router-dom";
 
 //const socket = io("http://192.168.1.8:8765"); // Replace with your backend URL
 
 const CallScreen = ({ callerEmail }) => {
-  const socket = useSocket();
+  const socket = useContext(SocketContext);
     const navigator = useNavigate();
     const callEmail = callerEmail
     console.log(callEmail)
