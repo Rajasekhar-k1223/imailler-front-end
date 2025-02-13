@@ -16,7 +16,7 @@ import { SocketContext } from "../../Context/SocketProvider";
 
 const Inbox=()=> {
   const navigate = useNavigate();
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   // const [email setEmails] = useState([
   //   {
   //     from: "Nidhi Mishra",
@@ -67,7 +67,7 @@ const Inbox=()=> {
     //   query: { debug: "true" }, // Enable debug logs
     //   transports: ["websocket", "polling"] // Specify transports
     // });
-    console.log(socket)
+    // console.log(socket)
      socket.on("connect", () => {
       console.log("Connected to server");
       socket.emit("register_client", username);

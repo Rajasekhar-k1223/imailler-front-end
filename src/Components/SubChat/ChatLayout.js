@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef, useContext } from 'react';
 import { Layout, List, Avatar, Badge, Typography, Card, Input, Button, Upload } from 'antd';
 import { SendOutlined, UploadOutlined, SmileOutlined } from '@ant-design/icons';
 import { PhoneOutlined, VideoCameraOutlined, SettingOutlined, MessageOutlined } from '@ant-design/icons';
@@ -9,13 +9,13 @@ import HeaderPage from '../Header/HeaderPage';
 import './ChatLayout.css';
 import config from '../../config';
 import CallScreen from '../CallSystem/CallScreen';
-import { useSocket } from '../../Context/SocketProvider';
+import { SocketContext } from '../../Context/SocketProvider';
 
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
 
 function ChatLayout() {
-    const { socket, message } = useSocket();
+    const { socket, message } = useContext(SocketContext);
     console.log(socket)
     const token = localStorage.getItem('authToken');
     const username = localStorage.getItem('username');

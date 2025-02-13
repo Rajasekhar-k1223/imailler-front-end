@@ -16,7 +16,7 @@ import { SocketContext } from "../../Context/SocketProvider";
 
 const Sent=()=> {
   const navigate = useNavigate();
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   // const [email setEmails] = useState([
   //   {
   //     from: "Nidhi Mishra",

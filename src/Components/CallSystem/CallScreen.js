@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 //const socket = io("http://192.168.1.8:8765"); // Replace with your backend URL
 
 const CallScreen = ({ callerEmail }) => {
-  const socket = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
     const navigator = useNavigate();
     const callEmail = callerEmail
     console.log(callEmail)
