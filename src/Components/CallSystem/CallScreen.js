@@ -1,63 +1,51 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import io from "socket.io-client";
 import Peer from "simple-peer";
-import { SocketContext } from "../../Context/SocketProvider";
-import { useNavigate } from "react-router-dom";
-
-//const socket = io("http://192.168.1.8:8765"); // Replace with your backend URL
+import { SocketContext, useMediaStream, useCallHandler } from "../../Context/SocketProvider";
 
 const CallScreen = ({ callerEmail }) => {
-  const {socket} = useContext(SocketContext);
-    const navigator = useNavigate();
-    const callEmail = callerEmail
-    console.log(callEmail)
+  const { socket } = useContext(SocketContext);
+  const { userVideo, remoteVideo } = useMediaStream();
+  const { incomingCall, acceptCall, rejectCall } = useCallHandler();
+  const callEmail = callerEmail;
+
   const [stream, setStream] = useState(null);
-  const [receivingCall, setReceivingCall] = useState(false);
-  const [caller, setCaller] = useState("");
-  const [callerSignal, setCallerSignal] = useState(null);
   const [callAccepted, setCallAccepted] = useState(false);
-  const userVideo = useRef();
-  const partnerVideo = useRef();
   const connectionRef = useRef();
 
   useEffect(() => {
-    console.log(socket)
-    callUser(callEmail)
-    navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setStream(stream);
+    if (!socket) return;
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((mediaStream) => {
+        setStream(mediaStream);
         if (userVideo.current) {
-          userVideo.current.srcObject = stream;
+          userVideo.current.srcObject = mediaStream;
         }
-      });
-      console.log(socket)
-    socket.on("callUser", (data) => {
-      console.log(data)
-      setReceivingCall(true);
-      setCaller(data.from);
-      setCallerSignal(data.signal);
-    });
-  }, []);
+      })
+      .catch((error) => console.error("Error accessing media devices:", error));
+
+    return () => {
+      if (connectionRef.current) {
+        connectionRef.current.destroy();
+      }
+    };
+  }, [socket]);
 
   const callUser = (callEmail) => {
-    const peer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream: stream,
+    if (!stream) {
+      console.warn("Stream is not ready yet!");
+      return;
+    }
+
+    const peer = new Peer({ initiator: true, trickle: false, stream });
+
+    peer.on("signal", (data) => {
+      socket.emit("callUser", { userToCall: callEmail, signalData: data, from: socket.id });
     });
 
-      peer.on("signal", (data) => {
-        console.log(data)
-      socket.emit("callUser", {
-        userToCall: callEmail,
-        signalData: data,
-        from: socket.id,
-      });
-    });
-
-    peer.on("stream", (stream) => {
-      if (partnerVideo.current) {
-        partnerVideo.current.srcObject = stream;
+    peer.on("stream", (remoteStream) => {
+      if (remoteVideo.current) {
+        remoteVideo.current.srcObject = remoteStream;
       }
     });
 
@@ -69,48 +57,39 @@ const CallScreen = ({ callerEmail }) => {
     connectionRef.current = peer;
   };
 
-  const answerCall = () => {
+  const handleAcceptCall = () => {
+    acceptCall(); // Accepts call & starts video
     setCallAccepted(true);
-    const peer = new Peer({
-      initiator: false,
-      trickle: false,
-      stream: stream,
-    });
-
-    peer.on("signal", (data) => {
-      socket.emit("answerCall", { signal: data, to: caller });
-    });
-
-    peer.on("stream", (stream) => {
-      if (partnerVideo.current) {
-        partnerVideo.current.srcObject = stream;
-      }
-    });
-
-    peer.signal(callerSignal);
-    connectionRef.current = peer;
   };
 
   return (
-    <div style={{    width: "95%",position: "absolute",zIndex: 1,
-    background: "#624262",
-    height: "90vh",
-    margin: "auto",
-    padding: "1rem",
-    borderRadius: "5px",
-    color: "#fff"}}>
+    <div style={{ width: "95%", background: "#624262", height: "90vh", padding: "1rem", borderRadius: "5px", color: "#fff" }}>
       <h2>Video Call</h2>
-      <div>
-        <video ref={userVideo} autoPlay playsInline />
-        {callAccepted && <video ref={partnerVideo} autoPlay playsInline />}
-      </div>
-      {/* <button onClick={() => callUser("user-id")}>Call</button> */}
-      {receivingCall && !callAccepted && (
-        <div>
+
+      {/* 📞 Incoming Call Popup */}
+      {incomingCall && !callAccepted && (
+        <div style={{ position: "fixed", top: "20%", left: "50%", transform: "translate(-50%)", padding: "1rem", background: "#fff", color: "#000", borderRadius: "10px", textAlign: "center" }}>
           <h3>Incoming Call...</h3>
-          <button onClick={answerCall}>Answer</button>
+          <button onClick={handleAcceptCall} style={{ margin: "5px", padding: "10px", background: "green", color: "#fff" }}>Accept</button>
+          <button onClick={rejectCall} style={{ margin: "5px", padding: "10px", background: "red", color: "#fff" }}>Reject</button>
         </div>
       )}
+
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div>
+          <h3>You</h3>
+          <video ref={userVideo} autoPlay playsInline muted style={{ width: "300px", height: "200px", borderRadius: "10px", backgroundColor: "black" }} />
+        </div>
+
+        {callAccepted && (
+          <div>
+            <h3>Remote User</h3>
+            <video ref={remoteVideo} autoPlay playsInline style={{ width: "300px", height: "200px", borderRadius: "10px", backgroundColor: "black" }} />
+          </div>
+        )}
+      </div>
+
+      <button onClick={() => callUser(callEmail)}>Call</button>
     </div>
   );
 };

@@ -86,7 +86,7 @@ const App = () => {
           />
         </Routes>
          <CallPopup />
-        <VideoCallScreen />
+        {/* <VideoCallScreen /> */}
       </SocketProvider>
     </BrowserRouter>          
 

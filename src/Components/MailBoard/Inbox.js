@@ -68,6 +68,10 @@ const Inbox=()=> {
     //   transports: ["websocket", "polling"] // Specify transports
     // });
     // console.log(socket)
+    if (!socket) {
+      console.warn("⚠️ Socket is not ready yet.");
+      return;
+    }
      socket.on("connect", () => {
       console.log("Connected to server");
       socket.emit("register_client", username);
@@ -168,8 +172,10 @@ const Inbox=()=> {
     //  else if(selectedFolder === 'Archive') { 
     //     setEmails([])
     // }
-     
-  },[selectedFolder]);
+    return () => {
+      socket.off("new_email"); // Clean up event listeners
+    };
+  },[socket, selectedFolder]);
   const handleFolderSelect = (folder) => {
    console.log(folder)
     // setSelectedFolder(folder);
